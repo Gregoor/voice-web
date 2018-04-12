@@ -63,7 +63,7 @@ interface LocalizedPagesProps extends PropsFromState, RouteComponentProps<any> {
 }
 
 interface LocalizedPagesState {
-  messagesGenerator: any;
+  messages: any;
 }
 
 const LocalizedLayout = withRouter(
@@ -72,7 +72,7 @@ const LocalizedLayout = withRouter(
   }))(
     class extends React.Component<LocalizedPagesProps, LocalizedPagesState> {
       state: LocalizedPagesState = {
-        messagesGenerator: null,
+        messages: null,
       };
 
       async componentDidMount() {
@@ -108,15 +108,15 @@ const LocalizedLayout = withRouter(
         }
 
         this.setState({
-          messagesGenerator: await createMessagesGenerator(api, userLocales),
+          messages: await createMessagesGenerator(api, userLocales),
         });
       }
 
       render() {
-        const { messagesGenerator } = this.state;
+        const { messages } = this.state;
         return (
-          messagesGenerator && (
-            <LocalizationProvider messages={messagesGenerator()}>
+          messages && (
+            <LocalizationProvider messages={messages}>
               <Layout locale={this.props.userLocales[0]} />
             </LocalizationProvider>
           )

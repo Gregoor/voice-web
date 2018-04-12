@@ -25,23 +25,20 @@ interface Props extends PropsFromState {
 }
 
 interface State {
-  messagesGenerator: any;
+  messages: any;
   showModal: boolean;
 }
 
 class LocalizationBox extends React.Component<Props, State> {
   state: State = {
-    messagesGenerator: null,
+    messages: null,
     showModal: false,
   };
 
   async componentDidMount() {
     const { api, locale } = this.props;
     this.setState({
-      messagesGenerator: await createCrossLocaleMessagesGenerator(
-        api,
-        locale.code
-      ),
+      messages: await createCrossLocaleMessagesGenerator(api, locale.code),
     });
   }
 
@@ -49,7 +46,7 @@ class LocalizationBox extends React.Component<Props, State> {
 
   render() {
     const { locale, progress, showCTA } = this.props;
-    const { messagesGenerator, showModal } = this.state;
+    const { messages, showModal } = this.state;
 
     return (
       <li className="language">
@@ -69,7 +66,7 @@ class LocalizationBox extends React.Component<Props, State> {
           </div>
         </div>
         {showCTA &&
-          messagesGenerator && (
+          messages && (
             <React.Fragment>
               {showModal && (
                 <HelpTranslateModal
@@ -77,7 +74,7 @@ class LocalizationBox extends React.Component<Props, State> {
                   onRequestClose={this.toggleModal}
                 />
               )}
-              <LocalizationProvider messages={messagesGenerator()}>
+              <LocalizationProvider messages={messages}>
                 <Localized id="get-involved-button">
                   <button onClick={this.toggleModal} />
                 </Localized>
